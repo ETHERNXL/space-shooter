@@ -114,7 +114,6 @@ export class Hero {
 
         this.bulletCount--;
         this.updateBulletCountText();
-        console.log(bullet);
     }
 
     public resetBulletCount(): void {

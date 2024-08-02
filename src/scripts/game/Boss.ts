@@ -64,7 +64,6 @@ export class Boss {
     }
 
     private shoot(): void { 
-        console.log("shoot from boss!");
         const bullet = new BossBullet(Config.boss.bullet.speed);
         bullet.beginFill(0xff0000); 
         bullet.drawRect(0, 0, Config.boss.bullet.width, Config.boss.bullet.height); 
@@ -144,7 +143,6 @@ export class Boss {
         const heroBullets = App.app.stage.children.filter(child => child instanceof Bullet);
         this.bullets.forEach(bossBullet => {
             heroBullets.forEach(heroBullet => {
-                console.log(this.checkCollision(bossBullet, heroBullet));
                 if (this.checkCollision(bossBullet, heroBullet)) {
                     App.app.stage.removeChild(bossBullet);
                     bossBullet.visible = false;

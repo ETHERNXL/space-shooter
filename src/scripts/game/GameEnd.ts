@@ -92,7 +92,6 @@ export class GameEnd {
         return game.asteroids.asteroids.length === 0 && game.boss === undefined;
     }
     private restartGame() {
-        console.log("Restart button clicked");
         this.isGameEnded = false;
         App.restart(); 
     }
