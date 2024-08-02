@@ -1,5 +1,8 @@
-# PIXI project template
+# PIXI project 
 
-Tutorial: https://gamedev.land/pixi_project_template/
+Run commands:
+npm i <br/>
+tsc <br/>
+npm start <br/>
 
 
