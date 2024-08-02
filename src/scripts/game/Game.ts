@@ -1,54 +1,68 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Game = void 0;
-const Background_1 = require("./Background");
-const Scene_1 = require("../system/Scene");
-const Hero_1 = require("./Hero");
-const Asteroids_1 = require("./Asteroids");
-const GameEnd_1 = require("./GameEnd");
-const Boss_1 = require("./Boss");
-class Game extends Scene_1.Scene {
+import { Background } from "./Background";
+import { Scene } from '../system/Scene';
+import { Hero } from './Hero';
+import { Asteroids } from './Asteroids';
+import { GameEnd } from './GameEnd';
+import { Boss } from "./Boss";
+
+export class Game extends Scene {
+    public isGameOver: boolean;
+    private bg!: Background;
+    private hero!: Hero;
+    public asteroids!: Asteroids;
+    private gameEnd!: GameEnd;
+    public boss!: Boss;
+    private bossCreated: boolean;
+    
     constructor() {
         super();
-        this.bossCreated = false;
+        this.bossCreated = false; 
         this.isGameOver = false;
     }
-    create() {
+    
+    create(): void {
         this.createBackground();
         this.createHero();
         this.createAsteroids();
         this.createGameEnd();
     }
-    createBackground() {
-        this.bg = new Background_1.Background();
+
+    private createBackground(): void {
+        this.bg = new Background();
         this.container.addChild(this.bg.container);
     }
-    createHero() {
-        this.hero = new Hero_1.Hero();
+
+    private createHero(): void {
+        this.hero = new Hero();
         this.container.addChild(this.hero.sprite);
     }
-    createAsteroids() {
-        this.asteroids = new Asteroids_1.Asteroids();
+
+    private createAsteroids() {
+        this.asteroids = new Asteroids();
         this.container.addChild(this.asteroids.container);
     }
-    createBoss() {
-        this.boss = new Boss_1.Boss(this.hero);
+
+    private createBoss(): void {
+        this.boss = new Boss(this.hero);
         this.container.addChild(this.boss.container);
     }
-    createGameEnd() {
-        this.gameEnd = new GameEnd_1.GameEnd();
+    
+    private createGameEnd(): void {
+        this.gameEnd = new GameEnd();
         this.container.addChild(this.gameEnd.container);
     }
-    update(dt) {
-        if (this.isGameOver)
-            return;
+
+    public update(dt: number) {
+        if (this.isGameOver) return;
         this.bg.update(dt);
         this.asteroids.update(dt);
         this.hero.update(dt);
-        this.gameEnd.update(dt, this);
+        this.gameEnd.update(dt, this); 
+
         if (this.hero.bulletCount === 0 && this.asteroids.asteroids.length > 1) {
             this.endGame("YOU LOSE");
         }
+        
         if (this.bossCreated) {
             this.boss.update(dt);
             if (this.boss.defeated) {
@@ -62,15 +76,16 @@ class Game extends Scene_1.Scene {
             }
         }
     }
-    endGame(message) {
-        this.isGameOver = true;
-        this.gameEnd.showMessage(message);
+
+    private endGame(message: string) {
+        this.isGameOver = true; 
+        this.gameEnd.showMessage(message); 
     }
-    transitionToNextLevel() {
+
+    public transitionToNextLevel(): void {
         this.container.removeChild(this.asteroids.container);
         this.createBoss();
         this.bossCreated = true;
         this.hero.resetBulletCount();
     }
 }
-exports.Game = Game;

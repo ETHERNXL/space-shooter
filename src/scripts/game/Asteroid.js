@@ -23,22 +23,41 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Scene = void 0;
+exports.Asteroid = void 0;
 const PIXI = __importStar(require("pixi.js"));
-const App_1 = require("./App");
-class Scene {
-    constructor() {
-        this.container = new PIXI.Container();
-        this.container.interactive = true;
-        this.create();
-        App_1.App.app.ticker.add(this.update, this);
+const App_1 = require("../system/App");
+const Config_1 = require("./Config");
+class Asteroid {
+    constructor(x) {
+        this.tileSize = PIXI.Texture.from("tile").width;
+        this.width = this.tileSize * 60;
+        this.height = this.tileSize * 60;
+        this.createContainer(x);
+        this.createTiles();
+        this.speed = Config_1.Config.asteroids.speed || 2;
     }
-    create() { }
-    update(dt) { }
-    destroy() { }
-    remove() {
-        App_1.App.app.ticker.remove(this.update, this);
-        this.destroy();
+    createContainer(x) {
+        this.container = new PIXI.Container();
+        this.container.x = x;
+        this.container.y = 0;
+        this.container.scale.set(0.3);
+    }
+    createTiles() {
+        for (let row = 0; row < 5; row++) {
+            for (let col = 0; col < 5; col++) {
+                this.createTile(row, col);
+            }
+        }
+    }
+    createTile(row, col) {
+        const texture = "tile";
+        const tile = App_1.App.sprite(texture);
+        this.container.addChild(tile);
+        tile.x = col * tile.width;
+        tile.y = row * tile.height;
+    }
+    update(dt) {
+        this.container.y += this.speed * dt;
     }
 }
-exports.Scene = Scene;
+exports.Asteroid = Asteroid;

@@ -23,22 +23,40 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Scene = void 0;
+exports.Background = void 0;
 const PIXI = __importStar(require("pixi.js"));
-const App_1 = require("./App");
-class Scene {
+const App_1 = require("../system/App");
+class Background {
     constructor() {
+        this.sprites = [];
         this.container = new PIXI.Container();
-        this.container.interactive = true;
-        this.create();
-        App_1.App.app.ticker.add(this.update, this);
+        this.createSprites();
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
     }
-    create() { }
-    update(dt) { }
-    destroy() { }
-    remove() {
-        App_1.App.app.ticker.remove(this.update, this);
-        this.destroy();
+    createSprites() {
+        for (let i = 0; i < 2; i++) {
+            this.createSprite(i);
+        }
+    }
+    createSprite(i) {
+        const sprite = App_1.App.sprite("bg");
+        sprite.x = i * sprite.width;
+        this.container.addChild(sprite);
+        this.sprites.push(sprite);
+    }
+    resize() {
+        const { width, height } = App_1.App.app.renderer;
+        this.sprites.forEach((sprite, index) => {
+            sprite.width = width;
+            sprite.height = height;
+            sprite.x = index * width;
+            sprite.y = 0;
+        });
+        this.container.width = width;
+        this.container.height = height;
+    }
+    update(dt) {
     }
 }
-exports.Scene = Scene;
+exports.Background = Background;

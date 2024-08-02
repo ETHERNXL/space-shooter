@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Config = void 0;
-const Game_1 = require("./Game");
-const Tools_1 = require("../system/Tools");
-exports.Config = {
+import { Game } from "./Game";
+import { Tools } from "../system/Tools";
+
+declare const require: any;
+
+export const Config = {
     width: 1280,
     height: 720,
     gametime: 60,
@@ -12,7 +12,7 @@ exports.Config = {
             x: 350,
             y: 600
         },
-        controls: {
+        controls:{
             left: "ArrowLeft",
             right: "ArrowRight",
             shoot: "Space"
@@ -24,7 +24,7 @@ exports.Config = {
             amount: 10
         }
     },
-    boss: {
+    boss:{
         hp: 4,
         speed: 1,
         bullet: {
@@ -33,9 +33,9 @@ exports.Config = {
             height: 15,
         }
     },
-    loader: Tools_1.Tools.massiveRequire(require["context"]('./../../sprites/', true, /\.(mp3|png|jpe?g)$/)),
+    loader: Tools.massiveRequire(require["context"]('./../../sprites/', true, /\.(mp3|png|jpe?g)$/)),
     scenes: {
-        "Game": Game_1.Game
+        "Game": Game
     },
     asteroids: {
         ranges: {
@@ -55,4 +55,5 @@ exports.Config = {
         maxAsteroids: 10,
         speed: 0.5
     },
+
 };
