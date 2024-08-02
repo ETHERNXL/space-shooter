@@ -1,6 +1,6 @@
 # PIXI project 
 
-Run commands:
+Run commands: <br/>
 npm i <br/>
 tsc <br/>
 npm start <br/>
